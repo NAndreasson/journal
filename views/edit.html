@@ -1,0 +1,43 @@
+<index:>
+  <div class="container">
+    <view name="form" person="{{_page.person}}"></view>
+  </div>
+
+<form:>
+  <h2>
+    {{if post.id}}
+      Edit {{post.name}}
+      <a on-click="deletePerson()" style="float:right;margin-top:3px" class="btn btn-danger">Delete</a>
+    {{else}}
+      Add a new post
+    {{/}}
+  </h2>
+  <form role="form" class="well" on-submit="done()">
+    <div class="row">
+      <div class="col-xs-6">
+        <field label="Name" has-error="{{nameError}}">
+          <input type="text" class="form-control" as="nameInput" value="{{person.name}}" autofocus="{{!person.id}}">
+        </field>
+      </div>
+    </div>
+
+   <div class="row">
+      <div class="col-xs-6">
+        <div id="epiceditor"></div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+      {{if person.id}}Done{{else}}Add post{{/}}
+    </button>
+    {{unless person.id}}
+      &sp;<button type="button" class="btn btn-link" on-click="cancel()">Cancel</button>
+    {{/}}
+  </form>
+
+<field: element="field">
+  <div class="form-group{{if @hasError}} has-error{{/if}}">
+    <label class="control-label">{{@label}}</label>
+    {{@content}}
+  </div>
+

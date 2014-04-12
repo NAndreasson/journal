@@ -1,0 +1,31 @@
+{
+  "name": "derby-examples",
+  "subdomain": "derby-examples",
+  "description": "Example applications for the Derby framework",
+  "version": "0.6.0",
+  "homepage": "http://derbyjs.com/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/codeparty/derby-examples.git"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "coffee-script": "~1.7.1",
+    "derby": "~0.6",
+    "derby-starter": "~0.1.0",
+    "express": "~3.4.8",
+    "d-connection-alert": "~0.1.0",
+    "d-before-unload": "~0.1.0",
+    "d-bootstrap": "~0.1.0",
+    "d-barchart": "~0.1.0",
+    "d-barchart-vanilla": "~0.1.0",
+    "d-d3-barchart": "~0.1.0"
+  },
+  "optionalDependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": "0.10.x"
+  }
+}
