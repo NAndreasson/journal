@@ -6,7 +6,18 @@ app.component(require('d-connection-alert'));
 app.component(require('d-before-unload'));
 
 app.get('/', function(page, model) {
-  page.render('post');
+  page.redirect('posts');
+});
+
+app.get('/posts', function(page, model) {
+  var postsQuery = model.query('posts', {});
+  postsQuery.subscribe(function(err) {
+    if (err) return next(err);
+
+    postsQuery.ref('_page.posts');
+    page.render('posts');
+  });
+
 });
 
 app.get('/post/:id', function(page, model, params, next) {
@@ -25,6 +36,10 @@ app.get('/post/:id', function(page, model, params, next) {
   });
 });
 
+app.proto.create = function(model) {
+  window.model = model;
+};
+
 // app.component('people:list', PeopleList);
 // function PeopleList() {}
 // PeopleList.prototype.init = function(model) {
@@ -39,27 +54,37 @@ app.get('/post/:id', function(page, model, params, next) {
 //   return 0;
 // }
 
-// app.component('edit:form', EditForm);
-// function EditForm() {}
+app.component('edit:form', EditForm);
 
-// EditForm.prototype.done = function() {
-//   var model = this.model;
-//   if (!model.get('person.name')) {
-//     var checkName = model.on('change', 'person.name', function(value) {
-//       if (!value) return;
-//       model.del('nameError');
-//       model.removeListener('change', checkName);
-//     });
-//     model.set('nameError', true);
-//     this.nameInput.focus();
-//     return;
-//   }
+function EditForm() {
+  this.editor = null;
+}
 
-//   if (!model.get('person.id')) {
-//     model.root.add('people', model.get('person'));
-//   }
-//   app.history.push('/people');
-// };
+EditForm.prototype.create = function() {
+  var textarea = this.textarea;
+  this.editor = new EpicEditor({ basePath: '', textarea: textarea }).load();
+};
+
+
+EditForm.prototype.done = function() {
+  console.log('Done');
+  var model = this.model;
+  if (!model.get('post.name')) {
+    var checkName = model.on('change', 'post.name', function(value) {
+      if (!value) return;
+      model.del('nameError');
+      model.removeListener('change', checkName);
+    });
+    model.set('nameError', true);
+    this.nameInput.focus();
+    return;
+  }
+
+  if (!model.get('post.id')) {
+    model.root.add('posts', model.get('post'));
+  }
+  app.history.push('/posts');
+};
 
 // EditForm.prototype.cancel = function() {
 //   app.history.back();
