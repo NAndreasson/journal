@@ -1,0 +1,16 @@
+<index:>
+  <div class="container">
+    <view name="list"></view>
+  </div>
+
+<list:>
+  {{if posts}}
+    <div>
+    {{each _page.posts}}
+      <h2>{{this.name}}</h2>
+    {{/}}
+    </div>
+  {{else}}
+    <h3>No post added yet.</h3>
+    <p>How about <a href="/post/new">adding someone</a>?</p>
+  {{/}}
