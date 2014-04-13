@@ -1,9 +1,11 @@
 var app = module.exports = require('derby').createApp('journal', __filename);
 app.use(require('d-bootstrap'));
 app.loadViews(__dirname + '/views');
-app.loadStyles(__dirname);
+app.loadStyles(__dirname + '/styles');
 app.component(require('d-connection-alert'));
 app.component(require('d-before-unload'));
+
+var markdown = require('markdown').markdown;
 
 app.get('/', function(page, model) {
   page.redirect('posts');
@@ -40,6 +42,11 @@ app.proto.create = function(model) {
   window.model = model;
 };
 
+app.proto.mdtohtml = function(content) {
+  var content = content || '';
+  return markdown.toHTML(content);
+};
+
 // app.component('people:list', PeopleList);
 // function PeopleList() {}
 // PeopleList.prototype.init = function(model) {
@@ -62,7 +69,15 @@ function EditForm() {
 
 EditForm.prototype.create = function() {
   var textarea = this.textarea;
-  this.editor = new EpicEditor({ basePath: '', textarea: textarea }).load();
+
+  this.editor = new EpicEditor({
+    basePath: '/epiceditor',
+    clientSideStorage: false,
+    textarea: textarea
+  }).load();
+
+  // datepicker
+  $('#datepicker').datepicker();
 };
 
 
@@ -79,6 +94,8 @@ EditForm.prototype.done = function() {
     this.nameInput.focus();
     return;
   }
+
+  model.set('post.content', this.editor.exportFile());
 
   if (!model.get('post.id')) {
     model.root.add('posts', model.get('post'));
