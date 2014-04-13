@@ -1,36 +1,38 @@
 <index:>
   <div class="container">
-    <view name="form" person="{{_page.person}}"></view>
+    <view name="form" post="{{_page.post}}"></view>
   </div>
 
 <form:>
   <h2>
     {{if post.id}}
       Edit {{post.name}}
-      <a on-click="deletePerson()" style="float:right;margin-top:3px" class="btn btn-danger">Delete</a>
+      <a on-click="deletePost()" style="float:right;margin-top:3px" class="btn btn-danger">Delete</a>
     {{else}}
       Add a new post
     {{/}}
   </h2>
   <form role="form" class="well" on-submit="done()">
     <div class="row">
-      <div class="col-xs-6">
+      <div class="col-md-12">
         <field label="Name" has-error="{{nameError}}">
-          <input type="text" class="form-control" as="nameInput" value="{{person.name}}" autofocus="{{!person.id}}">
+          <input type="text" class="form-control" as="nameInput" value="{{post.name}}" autofocus="{{!post.id}}">
         </field>
       </div>
     </div>
 
    <div class="row">
-      <div class="col-xs-6">
-        <div id="epiceditor"></div>
+      <div class="col-md-8">
+        <div id="epiceditor" as="mdEditor">
+          <textarea id="meck" as="textarea">ahhg</textarea>
+        </div>
       </div>
     </div>
 
     <button type="submit" class="btn btn-primary">
-      {{if person.id}}Done{{else}}Add post{{/}}
+      {{if post.id}}Done{{else}}Add post{{/}}
     </button>
-    {{unless person.id}}
+    {{unless post.id}}
       &sp;<button type="button" class="btn btn-link" on-click="cancel()">Cancel</button>
     {{/}}
   </form>
