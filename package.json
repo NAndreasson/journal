@@ -1,8 +1,7 @@
 {
-  "name": "derby-examples",
-  "subdomain": "derby-examples",
-  "description": "Example applications for the Derby framework",
-  "version": "0.6.0",
+  "name": "journal",
+  "description": "Journal",
+  "version": "0.1.0",
   "homepage": "http://derbyjs.com/",
   "repository": {
     "type": "git",
@@ -16,6 +15,7 @@
     "derby": "~0.6",
     "derby-starter": "~0.1.0",
     "express": "~3.4.8",
+    "markdown": "0.5.0",
     "d-connection-alert": "~0.1.0",
     "d-before-unload": "~0.1.0",
     "d-bootstrap": "~0.1.0",
