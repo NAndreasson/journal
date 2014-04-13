@@ -14,19 +14,23 @@
   </h2>
   <form role="form" class="well" on-submit="done()">
     <div class="row">
-      <div class="col-md-12">
-        <field label="Name" has-error="{{nameError}}">
-          <input type="text" class="form-control" as="nameInput" value="{{post.name}}" autofocus="{{!post.id}}">
-        </field>
-      </div>
-    </div>
-
-   <div class="row">
       <div class="col-md-8">
-        <div id="epiceditor" as="mdEditor">
-          <textarea id="meck" as="textarea">ahhg</textarea>
+        <div class="row">
+            <field label="Name" has-error="{{nameError}}">
+              <input type="text" class="form-control" as="nameInput" value="{{post.name}}" autofocus="{{!post.id}}">
+            </field>
+        </div>
+         <div class="row">
+            <div id="epiceditor" as="mdEditor">
+              <textarea id="meck" as="textarea"></textarea>
+            </div>
         </div>
       </div>
+
+      <div class="col-md-3 col-md-offset-1">
+        <div id="datepicker"></div>
+      </div>
+
     </div>
 
     <button type="submit" class="btn btn-primary">

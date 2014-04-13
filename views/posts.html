@@ -7,7 +7,10 @@
   {{if posts}}
     <div>
     {{each _page.posts}}
+    <div class="post">
       <h2>{{this.name}}</h2>
+      <div class="content">{{unescaped mdtohtml(this.content)}}</div>
+    </div>
     {{/}}
     </div>
   {{else}}
