@@ -13,6 +13,7 @@
   "dependencies": {
     "coffee-script": "~1.7.1",
     "derby": "~0.6",
+    "moment": "2.6.0",
     "derby-starter": "~0.1.0",
     "express": "~3.4.8",
     "markdown": "0.5.0",
