@@ -8,12 +8,16 @@
     <div>
     {{each _page.posts}}
     <div class="post">
-      <h2>{{this.name}}</h2>
+      <header>
+      <h2><a href="/post/{{this.id}}">{{this.name}}</a></h2>
+      <small>{{formatDate(this.date)}}</small>
+      </header>
+
       <div class="content">{{unescaped mdtohtml(this.content)}}</div>
     </div>
     {{/}}
     </div>
   {{else}}
     <h3>No post added yet.</h3>
-    <p>How about <a href="/post/new">adding someone</a>?</p>
+    <p>How about <a href="/edit/new">adding one</a>?</p>
   {{/}}
