@@ -1,6 +1,7 @@
 <import: src="./home">
 <import: src="./edit">
 <import: src="./posts">
+<import: src="./post">
 
 <Title:>
   Journal
@@ -19,7 +20,7 @@
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           <view name="nav-link" href="/">List</view>
-          <view name="nav-link" href="/post/new">New post</view>
+          <view name="nav-link" href="/edit/new">New post</view>
         </ul>
       </div>
     </div>
@@ -31,8 +32,8 @@
       <p>&copy; Company 2013</p>
     </footer>
   </div>
-  <script src="/epiceditor/js/epiceditor.js"></script>
   <script src="/jquery-2.1.0.js"></script>
+  <script src="/epiceditor/js/epiceditor.js"></script>
   <script src="/datepicker/js/bootstrap-datepicker.js"></script>
 
 <nav-link:>
