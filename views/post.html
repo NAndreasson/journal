@@ -1,0 +1,8 @@
+<index:>
+  <div class="container">
+    <view name="display" post="{{_page.post}}"></view>
+  </div>
+
+<display:>
+  <h2>{{_page.post.name}}</h2>
+  <div>{{unescaped mdtohtml(_page.post.content)}}</div>
