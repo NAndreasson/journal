@@ -1,5 +1,6 @@
 var app = module.exports = require('derby').createApp('journal', __filename);
 app.use(require('d-bootstrap'));
+app.use(require('derby-datepicker'));
 app.loadViews(__dirname + '/views');
 app.loadStyles(__dirname + '/styles');
 app.component(require('d-connection-alert'));
