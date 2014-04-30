@@ -18,6 +18,9 @@ app.get('/posts', function(page, model) {
   postsQuery.subscribe(function(err) {
     if (err) return next(err);
 
+    // todo build years array for view
+    //  from oldest post to the latest in time
+
     postsQuery.ref('_page.posts');
     page.render('posts');
   });
@@ -68,19 +71,31 @@ app.proto.formatDate = function(date) {
   return moment(date).format('dddd Do MMMM YYYY');
 };
 
-// app.component('people:list', PeopleList);
-// function PeopleList() {}
-// PeopleList.prototype.init = function(model) {
-//   model.ref('people', model.root.sort('people', nameAscending));
+app.proto.beginningOrEndOfWeek = function(day) {
+  return day == 0 || day == 6;
+};
+
+// app.component('edit:meck', Datepicker);
+
+// function Datepicker() {}
+// Datepicker.prototype.init = function() {
+//   console.log('Init da', arguments);
 // };
 
-// function nameAscending(a, b) {
-//   var aName = (a && a.name || '').toLowerCase();
-//   var bName = (b && b.name || '').toLowerCase();
-//   if (aName < bName) return -1;
-//   if (aName > bName) return 1;
-//   return 0;
-// }
+
+app.component('posts:list', PostsList);
+
+function PostsList() {}
+PostsList.prototype.init = function(model) {
+  model.ref('_page.posts', model.root.sort('posts', dateAscending));
+};
+
+function dateAscending(postA, postB) {
+  var aDate = moment(postA.date);
+  var bDate = moment(postB.date);
+
+  return bDate.diff(aDate);
+}
 
 app.component('edit:form', EditForm);
 
@@ -91,14 +106,19 @@ function EditForm() {
 EditForm.prototype.create = function() {
   var textarea = this.textarea;
 
-  this.editor = new EpicEditor({
+  var editor = this.editor = new EpicEditor({
     basePath: '/epiceditor',
     clientSideStorage: false,
     textarea: textarea
-  }).load();
+  });
 
-  // datepicker
-  $('#datepicker').datepicker();
+  editor.load(function() {
+    setTimeout(function() {
+      // sometimes the editor is too wide when page is loaded,
+      // doing a reflow sets it to the correct width
+      editor.reflow();
+    }, 100);
+  });
 };
 
 
@@ -116,8 +136,8 @@ EditForm.prototype.done = function() {
     return;
   }
 
-  var pickedDate = $('#datepicker').datepicker('getUTCDate');
-  if ( isNaN( pickedDate.getTime() ) ) return;
+  var pickedDate = model.get('post.date');
+  if ( !pickedDate ) return;
 
   model.set('post.date', pickedDate);
   model.set('post.content', this.editor.exportFile());
