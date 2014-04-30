@@ -1,13 +1,20 @@
 <index:>
   <div class="container">
-    <view name="list"></view>
+    <div class="row">
+      <div class="col-md-8">
+        <view name="list"></view>
+      </div>
+      <div class="col-md-3">
+        <view name="date"></view>
+      </div>
+    </div>
   </div>
 
 <list:>
-  {{if posts}}
+  {{if _page.posts}}
     <div>
     {{each _page.posts}}
-    <div class="post">
+    <div class="post-list">
       <header>
       <h2><a href="/post/{{this.id}}">{{this.name}}</a></h2>
       <small>{{formatDate(this.date)}}</small>
@@ -21,3 +28,30 @@
     <h3>No post added yet.</h3>
     <p>How about <a href="/edit/new">adding one</a>?</p>
   {{/}}
+
+<date:>
+  <div class="row">
+    <select class="form-control">
+      <option value="">2014</option>
+      <option value="">2013</option>
+      <option value="">2012</option>
+      <option value="">2011</option>
+    </select>
+  </div>
+  <div class="row">
+    <select class="form-control">
+      <option value="">All</option>
+      <option value="">January</option>
+      <option value="">February</option>
+      <option value="">March</option>
+      <option value="">April</option>
+      <option value="">May</option>
+      <option value="">June</option>
+      <option value="">July</option>
+      <option value="">August</option>
+      <option value="">September</option>
+      <option value="">October</option>
+      <option value="">November</option>
+      <option value="">December</option>
+    </select>
+  </div>
