@@ -13,7 +13,7 @@ app.get('/', function(page, model) {
   page.redirect('posts');
 });
 
-app.get('/posts', function(page, model) {
+app.get('/posts', function(page, model, params, next) {
   var postsQuery = model.query('posts', {});
   postsQuery.subscribe(function(err) {
     if (err) return next(err);
@@ -26,6 +26,30 @@ app.get('/posts', function(page, model) {
   });
 
 });
+
+app.get('/posts/:year', function(page, model, params, next) {
+  var yearDate = moment({ year: params.year });
+
+  var postsQuery = model.query('posts', getYearQuery(yearDate));
+  postsQuery.subscribe(function(err) {
+    if (err) return next(err);
+
+    postsQuery.ref('_page.query');
+    page.render('posts');
+  });
+});
+
+function getYearQuery(yearDate) {
+  var currentYear = yearDate.valueOf();
+  var nextYear = yearDate.add('years', 1).valueOf();
+
+  return {
+    date: {
+      $gt: currentYear, 
+      $lt: nextYear
+    } 
+  };
+}
 
 app.get('/edit/:id', function(page, model, params, next) {
   if (params.id === 'new') {
@@ -136,10 +160,10 @@ EditForm.prototype.done = function() {
     return;
   }
 
-  var pickedDate = model.get('post.date');
+  var pickedDate = new Date(model.get('post.date'));
   if ( !pickedDate ) return;
 
-  model.set('post.date', pickedDate);
+  model.set('post.date', +pickedDate); // to unix time
   model.set('post.content', this.editor.exportFile());
 
   if (!model.get('post.id')) {
