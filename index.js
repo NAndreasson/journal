@@ -39,6 +39,20 @@ app.get('/posts/:year', function(page, model, params, next) {
   });
 });
 
+app.get('/posts/:year/:month', function(page, model, params, next) {
+  // subtract 1 from month as moment starts counting from zero
+  var date = moment({ year: params.year, month: +params.month - 1 });
+
+  console.log('Month', date.format('MMM'));
+  var postsQuery = model.query('posts', getYearMonthQuery(date));
+  postsQuery.subscribe(function(err) {
+    if (err) return next(err);
+
+    postsQuery.ref('_page.query');
+    page.render('posts');
+  });
+});
+
 function getYearQuery(yearDate) {
   var currentYear = yearDate.valueOf();
   var nextYear = yearDate.add('years', 1).valueOf();
@@ -48,6 +62,18 @@ function getYearQuery(yearDate) {
       $gt: currentYear, 
       $lt: nextYear
     } 
+  };
+}
+
+function getYearMonthQuery(date) {
+  var currentDate = date.valueOf();
+  var nextMonthDate = date.add('months', 1).valueOf();
+
+  return {
+    date: {
+      $gt: currentDate,
+      $lt: nextMonthDate
+    }
   };
 }
 
